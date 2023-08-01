@@ -1,48 +1,46 @@
-import { Container, Texture } from "pixi.js";
+import type { Texture } from "pixi.js";
+import { Container } from "pixi.js";
 import { Button } from "./button";
 
-export class ToggleButton extends Container{
-    public static readonly TOGGLE_EVENT:string = "toggledButtonEvent";
-    private btnOn:Button;
-    private btnOff:Button;
-    private _state: boolean = true;
-    public get state(): boolean {
-        return this._state;
-    }
-    public set state(value: boolean) {
-        this._state = value;
-        this.fixState();
-    }
-    constructor(texUp:Texture, texDown:Texture){
-        super();
+export class ToggleButton extends Container {
+	public static readonly TOGGLE_EVENT: string = "toggledButtonEvent";
+	private btnOn: Button;
+	private btnOff: Button;
+	private _state: boolean = true;
+	public get state(): boolean {
+		return this._state;
+	}
+	public set state(value: boolean) {
+		this._state = value;
+		this.fixState();
+	}
+	constructor(texUp: Texture, texDown: Texture) {
+		super();
 
-        this.btnOn = new Button(texUp, texDown, texUp);
-        this.btnOff = new Button(texDown, texUp, texDown);
+		this.btnOn = new Button(texUp, texDown, texUp);
+		this.btnOff = new Button(texDown, texUp, texDown);
 
-        this.btnOn.on("buttonclick!", this.toggle, this);
-        this.btnOff.on("buttonclick!", this.toggle, this);
+		this.btnOn.on("buttonclick!", this.toggle, this);
+		this.btnOff.on("buttonclick!", this.toggle, this);
 
-        this.btnOff.visible = false;
+		this.btnOff.visible = false;
 
-        this.addChild(this.btnOn,this.btnOff);
-    }
+		this.addChild(this.btnOn, this.btnOff);
+	}
 
-    public toggle(){
-        this.state = !this.state;
-        this.emit(ToggleButton.TOGGLE_EVENT, this.state);
-        console.log("toggle")
-    }
+	public toggle() {
+		this.state = !this.state;
+		this.emit(ToggleButton.TOGGLE_EVENT, this.state);
+		console.log("toggle");
+	}
 
-    private fixState() {
-        if (this.state)
-        {
-            this.btnOff.visible = false;
-            this.btnOn.visible = true;
-        }
-        else
-        {
-            this.btnOff.visible = true;
-            this.btnOn.visible = false;
-        }
-    }
+	private fixState() {
+		if (this.state) {
+			this.btnOff.visible = false;
+			this.btnOn.visible = true;
+		} else {
+			this.btnOff.visible = true;
+			this.btnOn.visible = false;
+		}
+	}
 }

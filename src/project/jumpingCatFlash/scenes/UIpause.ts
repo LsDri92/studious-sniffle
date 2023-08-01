@@ -1,4 +1,4 @@
-import { Sprite, State, Text, Texture, TilingSprite } from "pixi.js";
+import { Sprite, Text, Texture, TilingSprite } from "pixi.js";
 
 import { SceneBase } from "../utils/SceneBase";
 import { SceneManager } from "../utils/SceneManager";

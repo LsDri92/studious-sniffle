@@ -1,13 +1,14 @@
 import { Sprite, Texture, Text, TextStyle, AnimatedSprite, Graphics } from "pixi.js";
 import { Keyboard } from "../utils/Keyboard";
 import { SceneBase } from "../utils/SceneBase";
-import { SceneManager } from "../utils/SceneManager";
+
 import { TickerScene } from "./TickerScene";
+import { Manager } from "../../..";
 
 export class MenuScene extends SceneBase {
 	public update(): void {
 		if (Keyboard.state.get("KeyS")) {
-			SceneManager.changeScene(new TickerScene());
+			Manager.changeScene(TickerScene);
 		}
 	}
 
