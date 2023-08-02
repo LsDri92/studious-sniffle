@@ -4,13 +4,12 @@ import { DataManager } from "./engine/datamanager/DataManager";
 import { DEBUG, SAVEDATA_VERSION } from "./flags";
 import * as ALL_FLAGS from "./flags";
 import { forceFocus, preventDrag, preventKeys } from "./engine/utils/browserFunctions";
-import { ScaleHelper } from "./engine/utils/ScaleHelper";
 import { ForagePersistanceProvider } from "./engine/datamanager/ForagePersistanceProvider";
 import { PixiRenderer } from "./engine/scenemanager/renderers/PixiRenderer";
-import { DuckScene } from "./project/scenes/DuckScene";
 import { settings } from "pixi.js";
 import { DEFAULTS } from "tweedle.js";
 import { Box2DHelper } from "./engine/utils/Box2DHelper";
+import { TickerScene } from "./project/jumpingCatFlash/src/Scenes/TickerScene";
 
 settings.RENDER_OPTIONS.hello = false;
 
@@ -18,10 +17,10 @@ DEFAULTS.safetyCheckFunction = (obj: any) => !obj?.destroyed;
 
 const pixiSettings = {
 	backgroundColor: 0x0,
-	width: ScaleHelper.IDEAL_WIDTH,
+	width: 1280,
 	resolution: window.devicePixelRatio || 1,
 	autoDensity: true,
-	height: ScaleHelper.IDEAL_HEIGHT,
+	height: 720,
 	autoStart: false,
 	view: document.getElementById("pixi-canvas") as HTMLCanvasElement,
 	interactionTestsAllScenes: true,
@@ -59,7 +58,7 @@ window.dispatchEvent(new Event("resize"));
 
 const initializeCb = function (): void {
 	// Manager.changeScene(import(/* webpackPrefetch: true */ "./project/scenes/LoaderScene"));
-	Manager.changeScene(DuckScene);
+	Manager.changeScene(TickerScene);
 };
 
 if (ALL_FLAGS.USE_BOX2D) {
