@@ -9,7 +9,7 @@ import { PixiRenderer } from "./engine/scenemanager/renderers/PixiRenderer";
 import { settings } from "pixi.js";
 import { DEFAULTS } from "tweedle.js";
 import { Box2DHelper } from "./engine/utils/Box2DHelper";
-import { TickerScene } from "./project/jumpingCatFlash/src/Scenes/TickerScene";
+import { MainMenuScene } from "./project/jumpingCatFlash/src/Scenes/MainMenuScene";
 
 settings.RENDER_OPTIONS.hello = false;
 
@@ -38,6 +38,7 @@ forceFocus();
 export const Manager = new SceneManager(new PixiRenderer(pixiSettings));
 
 DataManager.initialize(new ForagePersistanceProvider(), SAVEDATA_VERSION);
+
 DataManager.load();
 
 if (DEBUG) {
@@ -58,7 +59,7 @@ window.dispatchEvent(new Event("resize"));
 
 const initializeCb = function (): void {
 	// Manager.changeScene(import(/* webpackPrefetch: true */ "./project/scenes/LoaderScene"));
-	Manager.changeScene(TickerScene);
+	Manager.changeScene(MainMenuScene);
 };
 
 if (ALL_FLAGS.USE_BOX2D) {
