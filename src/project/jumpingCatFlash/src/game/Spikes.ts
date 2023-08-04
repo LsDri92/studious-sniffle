@@ -3,7 +3,6 @@ import { Container, Graphics, Sprite, Texture } from "pixi.js";
 import type { IHitbox } from "./IHitbox";
 
 export class Spikes extends Container implements IHitbox {
-	public static readonly BUNDLES = ["package-1"];
 	private hitbox: Graphics;
 	private spike: Sprite;
 

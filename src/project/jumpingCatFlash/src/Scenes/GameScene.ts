@@ -10,9 +10,12 @@ import { Hit } from "../../../../engine/collision/Hit";
 import { Keyboard } from "../../../../engine/input/Keyboard";
 import { Key } from "../../../../engine/input/Key";
 import { Timer } from "../../../../engine/tweens/Timer";
+import { Manager } from "../../../..";
+import { LevelPopup } from "../popups/LevelPopup";
+import { GameOverPopup } from "../popups/GameOverPopup";
+import { FadeColorTransition } from "../../../../engine/scenemanager/transitions/FadeColorTransition";
 
 export class GameScene extends PixiScene {
-	public static readonly BUNDLES = ["package-1"];
 	private playerCat: Player;
 	private platforms: Platform[];
 	private spikes: Spikes[];
@@ -21,10 +24,13 @@ export class GameScene extends PixiScene {
 	private floor: TilingSprite;
 	private middle: Sprite;
 	private middle1: Sprite;
+	public isAlive: boolean = true;
+	private tree: Sprite;
+	private level: number;
 
-	constructor() {
+	constructor(level: number) {
 		super();
-
+		this.level = level;
 		this.world = new Container();
 		this.bground = new Sprite(Texture.from("package-1/jumpingCatFlash/back.png"));
 		this.bground.width = ScaleHelper.IDEAL_WIDTH;
@@ -44,17 +50,18 @@ export class GameScene extends PixiScene {
 		house.scale.set(0.8);
 		this.world.addChild(house);
 
-		const tree: Sprite = new Sprite(Texture.from("package-1/jumpingCatFlash/tree.png"));
-		tree.position.x = 1050;
-		tree.position.y = 420;
-		this.world.addChild(tree, this.middle, this.middle1);
+		this.tree = Sprite.from(Texture.from("package-1/jumpingCatFlash/tree.png"));
+		this.tree.position.x = 1050;
+		this.tree.position.y = 420;
+		this.world.addChild(this.tree, this.middle, this.middle1);
 
 		// Player
 
 		this.playerCat = new Player();
 		this.playerCat.position.set(150, 705);
-
-		this.levelOne();
+		if (this.level == 1) {
+			this.levelOne();
+		}
 		this.addChild(this.world);
 	}
 	public override update(deltaMs: number): void {
@@ -109,7 +116,7 @@ export class GameScene extends PixiScene {
 					if (this.playerCat.y < this.platforms[i].y) {
 						this.playerCat.y -= result.overlap;
 						this.playerCat.acceleration.y = 0;
-						this.playerCat.speed.y = 0;
+
 						new Timer()
 							.duration(200)
 							.start()
@@ -136,8 +143,12 @@ export class GameScene extends PixiScene {
 						this.playerCat.y -= overlap.height;
 						this.playerCat.speed.y = 0;
 
-						this.playerCat.canJump = true;
-						this.playerCat.destroy(true);
+						this.playerCat.canJump = false;
+						if (this.isAlive) {
+							this.isAlive = false;
+							this.playerCat.dead();
+							Manager.openPopup(GameOverPopup);
+						}
 					} else if (this.playerCat.y > spike.y) {
 						this.playerCat.y += overlap.height;
 					}
@@ -154,18 +165,43 @@ export class GameScene extends PixiScene {
 			this.playerCat.y = 690;
 		}
 
+		// limit left
 		if (this.playerCat.x < 0) {
 			this.playerCat.x = 0;
+		}
+
+		// limit right
+		if (this.playerCat.x >= this.tree.position.x + this.tree.width * 1.2 && !this.playerCat.isComplete) {
+			this.playerCat.isComplete = true;
+			this.playerCat.isMoving = false;
+			this.playerCat.speed.x = 0;
+			this.playerCat.scale.x = 1;
+			if (this.playerCat.y == 690) {
+				new Timer()
+					.duration(1200)
+					.start()
+					.onComplete(() => {
+						this.playerCat.run();
+						this.playerCat.speed.x = Player.MOVE_PLAYER;
+						new Timer()
+							.duration(1500)
+							.start()
+							.onComplete(() => {
+								Manager.changeScene(GameScene, { sceneParams: [1], transitionClass: FadeColorTransition });
+							});
+					});
+			}
 		}
 	}
 
 	private levelOne(): void {
 		// platform
 
+		Manager.openPopup(LevelPopup, [1]);
 		this.platforms = [];
 
-		const platPosX = [400, 500, 400, 600, 350, 700, 1100];
-		const platPosY = [660, 570, 470, 420, 330, 280, 310];
+		const platPosX = [400, 500, 400, 600, 350, 700, 1100, 1180, 1300];
+		const platPosY = [660, 570, 470, 420, 330, 280, 310, 450, 600];
 
 		for (let i = 0; i < platPosX.length; i++) {
 			const platform = new Platform();
@@ -189,6 +225,11 @@ export class GameScene extends PixiScene {
 		this.world.addChild(this.floor, this.playerCat);
 	}
 
+	// private levelTwo(): void {}
+
+	// private levelThree(): void {}
+	// private levelFour(): void {}
+	// private levelFive(): void {}
 	public override onResize(_newW: number, _newH: number): void {
 		ScaleHelper.setScaleRelativeToScreen(this.world, _newW, _newH, 1, 1, ScaleHelper.FILL);
 		// ScaleHelper.setScaleRelativeToScreen(this.bground, _newW, _newH, 1, 1, ScaleHelper.FILL);

@@ -3,7 +3,6 @@ import { Platform } from "./Platforms";
 import { Spikes } from "./Spikes";
 
 export class Platwithspike extends Container {
-	public static readonly BUNDLES = ["package-1"];
 	private platform: Platform;
 	private spikes: Spikes;
 	private spikes1: Spikes;

@@ -4,7 +4,6 @@ import type { IHitbox } from "./IHitbox";
 import { HitPoly } from "../../../../engine/collision/HitPoly";
 
 export class Platform extends Container implements IHitbox {
-	public static readonly BUNDLES = ["package-1"];
 	public hitbox: HitPoly;
 	private platform: Sprite;
 
@@ -14,7 +13,7 @@ export class Platform extends Container implements IHitbox {
 		// plataforma
 		this.platform = new Sprite(Texture.from("package-1/jumpingCatFlash/platform-long.png"));
 		this.platform.anchor.set(0.5);
-		this.hitbox = HitPoly.makeBox(-this.platform.width * 0.5, -this.platform.height * 0.5, this.platform.width, this.platform.height, false);
+		this.hitbox = HitPoly.makeBox(-this.platform.width * 0.5, -this.platform.height * 0.3, this.platform.width, this.platform.height * 0.8, false);
 
 		// anchor point
 		const auxZero = new Graphics();

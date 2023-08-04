@@ -8,14 +8,13 @@ import { HitPoly } from "../../../../engine/collision/HitPoly";
 import { StateMachineAnimator } from "../../../../engine/animation/StateMachineAnimation";
 
 export class Player extends PhysicsContainer implements IHitbox {
-	public static readonly BUNDLES = ["package-1"];
 	public static readonly GRAVITY = 600;
 	public static readonly MOVE_PLAYER = 220;
 
 	public canJump: boolean = true;
 	public isMoving: boolean = true;
 	public life = 100;
-	public thereIsGravity: boolean = true;
+	public isComplete: boolean = false;
 
 	private catFlash: StateMachineAnimator;
 	private physCat: PhysicsContainer;
@@ -45,7 +44,7 @@ export class Player extends PhysicsContainer implements IHitbox {
 			true
 		);
 
-		this.catFlash.addState("idle", [Texture.from("package-1/jumpingCatFlash/runcat/runcat1.png")]);
+		this.catFlash.addState("idle", [Texture.from("package-1/jumpingCatFlash/runcat/runcat1.png"), Texture.from("package-1/jumpingCatFlash/runcat/runcat5.png")], 1.5);
 
 		this.catFlash.addState(
 			"jump",
@@ -61,7 +60,19 @@ export class Player extends PhysicsContainer implements IHitbox {
 			false
 		);
 
-		this.idle();
+		this.catFlash.addState(
+			"rest",
+			[
+				Texture.from("package-1/jumpingCatFlash/UIlvlcomplete/lvlcompleteCat1.png"),
+				Texture.from("package-1/jumpingCatFlash/UIlvlcomplete/lvlcompleteCat2.png"),
+				Texture.from("package-1/jumpingCatFlash/UIlvlcomplete/lvlcompleteCat3.png"),
+				Texture.from("package-1/jumpingCatFlash/UIlvlcomplete/lvlcompleteCat4.png"),
+			],
+			3.5,
+			true
+		);
+
+		this.complete();
 		this.catFlash.anchor.set(0.5);
 		this.catFlash.animationSpeed = 0.02;
 
@@ -83,19 +94,18 @@ export class Player extends PhysicsContainer implements IHitbox {
 		this.catFlash.addChild(this.hitbox);
 	}
 
-	public override destroy(options: any): void {
-		super.destroy(options);
-	}
-
 	public override update(deltaMS: number): void {
 		super.update(deltaMS / 1000);
 		this.catFlash.update(deltaMS / (1000 / 60));
+	}
+	public dead(): void {
+		this.catFlash.visible = false;
 	}
 
 	public jump(): void {
 		// this.canJump = false;
 		this.catFlash.playState("jump");
-		this.speed.y = -350;
+		this.speed.y = -300;
 		this.acceleration.y = Player.GRAVITY;
 		this.canJump = false;
 	}
@@ -106,6 +116,10 @@ export class Player extends PhysicsContainer implements IHitbox {
 
 	public idle(): void {
 		this.catFlash.playState("idle");
+	}
+
+	public complete(): void {
+		this.catFlash.playState("rest");
 	}
 
 	public getDamage(): void {

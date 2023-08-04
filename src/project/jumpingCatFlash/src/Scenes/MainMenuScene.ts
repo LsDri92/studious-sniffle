@@ -10,6 +10,7 @@ import { Tween } from "tweedle.js";
 import Random from "../../../../engine/random/Random";
 import { GlowFilter } from "@pixi/filter-glow";
 import { SoundButtons } from "../utils/SoundButtons";
+import { FadeColorTransition } from "../../../../engine/scenemanager/transitions/FadeColorTransition";
 
 export class MainMenuScene extends PixiScene {
 	public static readonly BUNDLES = ["package-1", "ui-placeholder-demo", "music"];
@@ -81,7 +82,7 @@ export class MainMenuScene extends PixiScene {
 	}
 
 	private startGame(): void {
-		Manager.changeScene(GameScene);
+		Manager.changeScene(GameScene, { sceneParams: [1], transitionClass: FadeColorTransition });
 	}
 
 	public override onResize(_newW: number, _newH: number): void {
