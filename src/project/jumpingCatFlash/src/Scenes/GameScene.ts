@@ -1,4 +1,5 @@
-import { Container, Sprite, Texture, TilingSprite } from "pixi.js";
+/* eslint-disable @typescript-eslint/naming-convention */
+import { Container, Point, Sprite, Texture, TilingSprite } from "pixi.js";
 import { checkColission } from "../game/IHitbox";
 import { Platform } from "../game/Platforms";
 import { Player } from "../game/Player";
@@ -14,6 +15,9 @@ import { Manager } from "../../../..";
 import { LevelPopup } from "../popups/LevelPopup";
 import { GameOverPopup } from "../popups/GameOverPopup";
 import { FadeColorTransition } from "../../../../engine/scenemanager/transitions/FadeColorTransition";
+import { Tween } from "tweedle.js";
+import type { PlatformNumber, IPlatformPosition } from "../game/IPlatform";
+import Random from "../../../../engine/random/Random";
 
 export class GameScene extends PixiScene {
 	private playerCat: Player;
@@ -30,7 +34,7 @@ export class GameScene extends PixiScene {
 
 	constructor(level: number) {
 		super();
-		this.level = level;
+		this.level = 3;
 		this.world = new Container();
 		this.bground = new Sprite(Texture.from("package-1/jumpingCatFlash/back.png"));
 		this.bground.width = ScaleHelper.IDEAL_WIDTH;
@@ -61,6 +65,21 @@ export class GameScene extends PixiScene {
 		this.playerCat.position.set(150, 705);
 		if (this.level == 1) {
 			this.levelOne();
+		}
+
+		switch (this.level) {
+			case 1:
+				this.levelOne();
+				break;
+			case 2:
+				this.levelTwo();
+				break;
+			case 3:
+				this.levelThree();
+				break;
+
+			default:
+				break;
 		}
 		this.addChild(this.world);
 	}
@@ -170,34 +189,47 @@ export class GameScene extends PixiScene {
 			this.playerCat.x = 0;
 		}
 
+		switch (this.level) {
+			case 1:
+				this.endLevel(2);
+				break;
+			case 2:
+				this.endLevel(3);
+				break;
+
+			default:
+				break;
+		}
+	}
+
+	private endLevel(nextLevel: number): void {
 		// limit right
-		if (this.playerCat.x >= this.tree.position.x + this.tree.width * 1.2 && !this.playerCat.isComplete) {
+		if (this.playerCat.x > this.tree.position.x + this.tree.width * 1.2 && !this.playerCat.isComplete) {
 			this.playerCat.isComplete = true;
 			this.playerCat.isMoving = false;
 			this.playerCat.speed.x = 0;
 			this.playerCat.scale.x = 1;
-			if (this.playerCat.y == 690) {
-				new Timer()
-					.duration(1200)
-					.start()
-					.onComplete(() => {
-						this.playerCat.run();
-						this.playerCat.speed.x = Player.MOVE_PLAYER;
-						new Timer()
-							.duration(1500)
-							.start()
-							.onComplete(() => {
-								Manager.changeScene(GameScene, { sceneParams: [1], transitionClass: FadeColorTransition });
-							});
-					});
-			}
+
+			new Timer()
+				.duration(1200)
+				.start()
+				.onComplete(() => {
+					this.playerCat.run();
+					this.playerCat.speed.x = Player.MOVE_PLAYER;
+					new Timer()
+						.duration(1500)
+						.start()
+						.onComplete(() => {
+							Manager.changeScene(GameScene, { sceneParams: [nextLevel], transitionClass: FadeColorTransition });
+						});
+				});
 		}
 	}
 
 	private levelOne(): void {
 		// platform
 
-		Manager.openPopup(LevelPopup, [1]);
+		Manager.openPopup(LevelPopup, [this.level]);
 		this.platforms = [];
 
 		const platPosX = [400, 500, 400, 600, 350, 700, 1100, 1180, 1300];
@@ -225,9 +257,128 @@ export class GameScene extends PixiScene {
 		this.world.addChild(this.floor, this.playerCat);
 	}
 
-	// private levelTwo(): void {}
+	private levelTwo(): void {
+		// platform
 
-	// private levelThree(): void {}
+		Manager.openPopup(LevelPopup, [this.level]);
+		this.platforms = [];
+
+		const platPosX = [400, 500, 400, 600, 350, 700, 1100, 1180, 1300];
+		const platPosY = [660, 570, 470, 420, 330, 280, 310, 450, 600];
+
+		for (let i = 0; i < platPosX.length; i++) {
+			const platform = new Platform();
+			platform.position.set(platPosX[i], platPosY[i]);
+			this.platforms.push(platform);
+			this.world.addChild(platform);
+		}
+
+		for (let i = 0; i < this.platforms.length; i += 2) {
+			new Tween(this.platforms[i])
+				.from({ alpha: 1 })
+				.to({ alpha: 0 }, 4200)
+				.yoyo(true)
+				.repeat(Infinity)
+				.start()
+				.onRepeat(() => {
+					if (this.platforms[i].alpha == 1) {
+						this.platforms[i].visible = true;
+						this.platforms[i].addChild(this.platforms[i].hitbox);
+					} else if (this.platforms[i].alpha == 0) {
+						this.platforms[i].visible = false;
+						this.platforms[i].removeChild(this.platforms[i].hitbox);
+					}
+				});
+		}
+
+		this.spikes = [];
+
+		const spikePosX = [600, 630, 560, 690, 725, 755, 785, 885, 900, 950, 1000, 1100, 1150, 1200];
+		const spikePosY = [685, 685, 685, 685, 685, 685, 685, 685, 685, 685, 685, 685, 685, 685];
+
+		for (let i = 0; i < spikePosX.length; i++) {
+			const spike = new Spikes();
+			spike.position.set(spikePosX[i], spikePosY[i]);
+			this.spikes.push(spike);
+			this.world.addChild(spike);
+		}
+
+		this.world.addChild(this.floor, this.playerCat);
+	}
+
+	private levelThree(): void {
+		// platform
+
+		Manager.openPopup(LevelPopup, [this.level]);
+		this.platforms = [];
+
+		const randomPosition: Record<PlatformNumber, IPlatformPosition> = {
+			1: { platPos: new Point(Random.shared.randomInt(500, 550), Random.shared.randomInt(500, 650)) },
+			2: { platPos: new Point(Random.shared.randomInt(550, 650), Random.shared.randomInt(500, 650)) },
+			3: { platPos: new Point(Random.shared.randomInt(500, 1000), Random.shared.randomInt(500, 650)) },
+			4: { platPos: new Point(Random.shared.randomInt(500, 1000), Random.shared.randomInt(500, 650)) },
+			5: { platPos: new Point(Random.shared.randomInt(500, 1000), Random.shared.randomInt(500, 650)) },
+			6: { platPos: new Point(Random.shared.randomInt(500, 1000), Random.shared.randomInt(500, 650)) },
+			7: { platPos: new Point(Random.shared.randomInt(500, 1000), Random.shared.randomInt(500, 650)) },
+			8: { platPos: new Point(Random.shared.randomInt(500, 1000), Random.shared.randomInt(500, 650)) },
+		};
+		const platPos: Array<Point> = [
+			randomPosition[1].platPos,
+			randomPosition[2].platPos,
+			randomPosition[3].platPos,
+			randomPosition[4].platPos,
+			randomPosition[5].platPos,
+			randomPosition[6].platPos,
+			randomPosition[7].platPos,
+			randomPosition[8].platPos,
+		];
+		for (let i = 1; i < platPos.length; i++) {
+			const platform = new Platform();
+			platform.position.set(platPos[i].x, platPos[i].y);
+			this.platforms.push(platform);
+			this.world.addChild(platform);
+		}
+		new Timer()
+			.duration(5000)
+			.start()
+			.onComplete(() => {
+				this.platforms.forEach((plat) => {
+					this.world.removeChild(plat);
+				});
+			});
+
+		// for (let i = 0; i < this.platforms.length; i += 2) {
+		// 	new Tween(this.platforms[i])
+		// 		.from({ alpha: 1 })
+		// 		.to({ alpha: 0 }, 4200)
+		// 		.yoyo(true)
+		// 		.repeat(Infinity)
+		// 		.start()
+		// 		.onRepeat(() => {
+		// 			if (this.platforms[i].alpha == 1) {
+		// 				this.platforms[i].visible = true;
+		// 				this.platforms[i].addChild(this.platforms[i].hitbox);
+		// 			} else if (this.platforms[i].alpha == 0) {
+		// 				this.platforms[i].visible = false;
+		// 				this.platforms[i].removeChild(this.platforms[i].hitbox);
+		// 			}
+		// 		});
+		// }
+
+		this.spikes = [];
+
+		const spikePosX = [600, 630, 560, 690, 725, 755, 785, 885, 900, 950, 1000, 1100, 1150, 1200];
+		const spikePosY = [685, 685, 685, 685, 685, 685, 685, 685, 685, 685, 685, 685, 685, 685];
+
+		for (let i = 0; i < spikePosX.length; i++) {
+			const spike = new Spikes();
+			spike.position.set(spikePosX[i], spikePosY[i]);
+			this.spikes.push(spike);
+			this.world.addChild(spike);
+		}
+
+		this.world.addChild(this.floor, this.playerCat);
+	}
 	// private levelFour(): void {}
 	// private levelFive(): void {}
 	public override onResize(_newW: number, _newH: number): void {

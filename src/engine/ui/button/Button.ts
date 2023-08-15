@@ -1,8 +1,10 @@
-import { Filter, Texture } from "@pixi/core";
+import type { Filter } from "@pixi/core";
+import { Texture } from "@pixi/core";
 import { Container } from "@pixi/display";
 import { Sprite } from "@pixi/sprite";
 import { TextStyle, Text } from "@pixi/text";
-import { Circle, IPointData, Rectangle } from "@pixi/math";
+import type { IPointData } from "@pixi/math";
+import { Circle, Rectangle } from "@pixi/math";
 import type { FederatedPointerEvent } from "@pixi/events";
 
 export class Button extends Container {

@@ -1,7 +1,8 @@
 import { Texture } from "@pixi/core";
 import { Container } from "@pixi/display";
 import { Graphics } from "@pixi/graphics";
-import { ObservablePoint, Rectangle } from "@pixi/math";
+import type { Rectangle } from "@pixi/math";
+import { ObservablePoint } from "@pixi/math";
 import { Sprite } from "@pixi/sprite";
 import { Tween, Easing } from "tweedle.js";
 import * as MathUtils from "../../utils/MathUtils";

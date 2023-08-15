@@ -8,7 +8,7 @@ import { Manager } from "../../../..";
 import { GameScene } from "./GameScene";
 import { Tween } from "tweedle.js";
 import Random from "../../../../engine/random/Random";
-import { GlowFilter } from "@pixi/filter-glow";
+// import { GlowFilter } from "@pixi/filter-glow";
 import { SoundButtons } from "../utils/SoundButtons";
 import { FadeColorTransition } from "../../../../engine/scenemanager/transitions/FadeColorTransition";
 
@@ -40,7 +40,7 @@ export class MainMenuScene extends PixiScene {
 		this.catStand.animationSpeed = 0.2;
 		this.catStand.scale.set(2);
 
-		const glowFilter = new GlowFilter({ color: 0xff0000 });
+		// const glowFilter = new GlowFilter({ color: 0xff0000 });
 
 		this.buttonPlay = new Button({
 			clickOnce: true,
@@ -57,7 +57,7 @@ export class MainMenuScene extends PixiScene {
 				this.startGame();
 			},
 		});
-		this.buttonPlay.filters = [glowFilter];
+		// this.buttonPlay.filters = [glowFilter];
 		this.buttonPlay.scale.set(0.5);
 		this.buttonPlay.pivot.set(this.buttonPlay.width / 2, 0);
 		this.buttonPlay.position.set(this.background.width / 2, this.background.height * 0.55);

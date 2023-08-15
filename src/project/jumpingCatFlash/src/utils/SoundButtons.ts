@@ -1,11 +1,11 @@
-import { Tween } from "tweedle.js";
+// import { Tween } from "tweedle.js";
 import { DataManager } from "../../../../engine/datamanager/DataManager";
 import { SoundLib } from "../../../../engine/sound/SoundLib";
 import { ToggleCheck } from "../../../../engine/ui/toggle/ToggleCheck";
 import { Container } from "pixi.js";
 import { PixiScene } from "../../../../engine/scenemanager/scenes/PixiScene";
 import { ScaleHelper } from "../../../../engine/utils/ScaleHelper";
-import { GlowFilter } from "@pixi/filter-glow";
+// import { GlowFilter } from "@pixi/filter-glow";
 import { Timer } from "../../../../engine/tweens/Timer";
 
 export class SoundButtons extends PixiScene {
@@ -46,11 +46,11 @@ export class SoundButtons extends PixiScene {
 
 		this.topRightContainer.addChild(this.soundBtn);
 
-		const glowFilter = new GlowFilter({ color: 0xff0000 });
+		// const glowFilter = new GlowFilter({ color: 0xff0000 });
 
-		this.soundBtn.filters = [glowFilter];
+		// this.soundBtn.filters = [glowFilter];
 
-		new Tween(glowFilter).to({ alpha: 0.5 }, 900).yoyo(true).repeat(Infinity).start();
+		// new Tween(glowFilter).to({ alpha: 0.5 }, 900).yoyo(true).repeat(Infinity).start();
 		this.soundBtn.interactive = true;
 
 		this.topRightContainer.y = -10;

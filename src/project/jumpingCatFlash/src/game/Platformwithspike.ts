@@ -12,7 +12,6 @@ export class Platwithspike extends Container {
 		super();
 
 		this.platform = new Platform();
-		this.platform.position.set(500, 500);
 
 		this.spikes = new Spikes();
 		this.spikes.position.set(0, -20);
@@ -22,8 +21,6 @@ export class Platwithspike extends Container {
 		this.spikes2.position.set(45, -20);
 
 		this.addChild(this.platform);
-		this.platform.addChild(this.spikes);
-		this.platform.addChild(this.spikes1);
-		this.platform.addChild(this.spikes2);
+		this.platform.addChild(this.spikes, this.spikes1, this.spikes2);
 	}
 }

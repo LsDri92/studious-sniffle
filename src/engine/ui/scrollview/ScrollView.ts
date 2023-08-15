@@ -1,4 +1,5 @@
-import { Container, DisplayObject } from "@pixi/display";
+import type { DisplayObject } from "@pixi/display";
+import { Container } from "@pixi/display";
 import type { FederatedPointerEvent } from "@pixi/events";
 import { Graphics } from "@pixi/graphics";
 import { Rectangle, Point } from "@pixi/math";

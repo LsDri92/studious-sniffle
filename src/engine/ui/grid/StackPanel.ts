@@ -1,5 +1,6 @@
 import type { Container } from "@pixi/display";
-import { Grid, GridOptions } from "./Grid";
+import type { GridOptions } from "./Grid";
+import { Grid } from "./Grid";
 
 /**
  * Stack panel

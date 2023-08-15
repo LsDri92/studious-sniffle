@@ -8,7 +8,7 @@ import { HitPoly } from "../../../../engine/collision/HitPoly";
 import { StateMachineAnimator } from "../../../../engine/animation/StateMachineAnimation";
 
 export class Player extends PhysicsContainer implements IHitbox {
-	public static readonly GRAVITY = 600;
+	public static readonly GRAVITY = 500;
 	public static readonly MOVE_PLAYER = 220;
 
 	public canJump: boolean = true;
@@ -105,7 +105,7 @@ export class Player extends PhysicsContainer implements IHitbox {
 	public jump(): void {
 		// this.canJump = false;
 		this.catFlash.playState("jump");
-		this.speed.y = -300;
+		this.speed.y = -240;
 		this.acceleration.y = Player.GRAVITY;
 		this.canJump = false;
 	}
