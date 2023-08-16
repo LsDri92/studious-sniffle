@@ -1,6 +1,6 @@
 import type { Rectangle } from "pixi.js";
 import { Container, Graphics, Sprite, Texture } from "pixi.js";
-import type { IHitbox } from "./IHitbox";
+import type { IHitbox } from "../utils/IHitbox";
 
 export class Spikes extends Container implements IHitbox {
 	private hitbox: Graphics;

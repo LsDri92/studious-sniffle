@@ -1,11 +1,11 @@
 import type { Rectangle } from "pixi.js";
 import { Graphics, Texture } from "pixi.js";
-import type { IHitbox } from "./IHitbox";
-import { PhysicsContainer } from "./PhysicsContainer";
+import type { IHitbox } from "../utils/IHitbox";
 // import { Keyboard } from "../../../../engine/input/Keyboard";
 // import { Key } from "../../../../engine/input/Key";
 import { HitPoly } from "../../../../engine/collision/HitPoly";
 import { StateMachineAnimator } from "../../../../engine/animation/StateMachineAnimation";
+import { PhysicsContainer } from "../utils/PhysicsContainer";
 
 export class Player extends PhysicsContainer implements IHitbox {
 	public static readonly GRAVITY = 500;

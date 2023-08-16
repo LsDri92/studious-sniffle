@@ -1,0 +1,222 @@
+{
+    "type": [ 
+        {"Basto": [{
+            "type": "basto",
+                    "number": 1,
+                    "value":0
+                },
+                {
+                    "type": "basto",
+                    "number": 2,
+                    "value": 0
+                },
+                {
+                    "type": "basto",
+                    "number": 3,
+                    "value": 0
+                },
+                {
+                    "type": "basto",
+                    "number": 4,
+                    "value": 0
+                },
+                {
+                    "type": "basto",
+                    "number": 5,
+                    "value": 0
+                },
+                {
+                    "type": "basto",
+                    "number": 6,
+                    "value": 0
+                },
+                {
+                    "type": "basto",
+                    "number": 7,
+                    "value": 0
+                },
+                {
+                    "type": "basto",
+                    "number": 8,
+                    "value": 0
+                },
+                {
+                    "type": "basto",
+                    "number": 9,
+                    "value": 0
+                },
+                {
+                    "type": "basto",
+                    "number": 10,
+                    "value": 0
+                },
+                {
+                    "type": "basto",
+                    "number": 11,
+                    "value": 0
+                },
+                {
+                    "type": "basto",
+                    "number": 12,
+                    "value": 0
+                }
+                    
+            ]   
+        },
+        {"Espada": [
+                {
+                "number": 1,
+                "value":0
+                },
+                {
+                "number": 2,
+                "value": 0
+                },
+                {
+                "number": 3,
+                "value": 0
+                },
+                {
+                "number": 4,
+                "value": 0
+                },
+                {
+                "number": 5,
+                "value": 0
+                },
+                {
+                "number": 6,
+                "value": 0
+                },
+                {
+                "number": 7,
+                "value": 0
+                },
+                {
+                "number": 8,
+                "value": 0
+                },
+                {
+                "number": 9,
+                "value": 0
+                },
+                {
+                "number": 10,
+                "value": 0
+                },
+                {
+                "number": 11,
+                "value": 0
+                },
+                {
+                "number": 12,
+                "value": 0
+                }
+            
+            ]   
+        },
+        {"Copa": [
+            {
+    "number": 1,
+    "value":0
+            },
+            {
+    "number": 2,
+    "value": 0
+            },
+            {
+    "number": 3,
+    "value": 0
+            },
+            {
+    "number": 4,
+    "value": 0
+            },
+            {
+    "number": 5,
+    "value": 0
+            },
+            {
+    "number": 6,
+    "value": 0
+            },
+            {
+    "number": 7,
+    "value": 0
+            },      
+            {
+    "number": 8,
+    "value": 0
+            },
+            {
+    "number": 9,
+    "value": 0
+            },
+            {
+    "number": 10,
+    "value": 0
+            },
+            {
+    "number": 11,
+    "value": 0
+            },
+            {
+    "number": 12,
+    "value": 0
+            }
+    
+    ]   
+},
+    {"Oro": [{
+    "number": 1,
+    "value":0
+},
+{
+    "number": 2,
+    "value": 0
+},
+{
+    "number": 3,
+    "value": 0
+},
+{
+    "number": 4,
+    "value": 0
+},
+{
+    "number": 5,
+    "value": 0
+},
+{
+    "number": 6,
+    "value": 0
+},
+{
+    "number": 7,
+    "value": 0
+},
+{
+    "number": 8,
+    "value": 0
+},
+{
+    "number": 9,
+    "value": 0
+},
+{
+    "number": 10,
+    "value": 0
+},
+{
+    "number": 11,
+    "value": 0
+},
+{
+    "number": 12,
+    "value": 0
+}
+    
+]   
+}
+    ]
+}

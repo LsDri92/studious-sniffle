@@ -1,6 +1,5 @@
-/* eslint-disable @typescript-eslint/naming-convention */
-import { Container, Point, Sprite, Texture, TilingSprite } from "pixi.js";
-import { checkColission } from "../game/IHitbox";
+import { Container, Sprite, Texture, TilingSprite } from "pixi.js";
+import { checkColission } from "../utils/IHitbox";
 import { Platform } from "../game/Platforms";
 import { Player } from "../game/Player";
 import { Spikes } from "../game/Spikes";
