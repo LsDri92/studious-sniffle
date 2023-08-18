@@ -7,9 +7,10 @@ export class SpanishCards {
 	public copa: Array<Cards> = [null];
 	public oro: Array<Cards> = [null];
 	public cardNumber: number;
+	public deck: Array<Cards[]> = [];
 
 	constructor() {
-		this.createDeck();
+		// this.createDeck();
 	}
 
 	public createDeck(): any {
@@ -31,6 +32,7 @@ export class SpanishCards {
 			this.oro.push(oro);
 		}
 		console.log(this.basto, this.espada, this.copa, this.oro);
-		return this.basto, this.espada, this.copa, this.oro;
+		this.deck.push(this.basto, this.espada, this.copa, this.oro);
+		return this.deck;
 	}
 }
