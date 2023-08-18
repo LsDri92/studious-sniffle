@@ -1,4 +1,5 @@
-import { Container, Sprite, Texture, TilingSprite } from "pixi.js";
+/* eslint-disable @typescript-eslint/naming-convention */
+import { Point, Sprite, Texture, TilingSprite } from "pixi.js";
 import { checkColission } from "../utils/IHitbox";
 import { Platform } from "../game/Platforms";
 import { Player } from "../game/Player";
@@ -10,19 +11,20 @@ import { Hit } from "../../../../engine/collision/Hit";
 import { Keyboard } from "../../../../engine/input/Keyboard";
 import { Key } from "../../../../engine/input/Key";
 import { Timer } from "../../../../engine/tweens/Timer";
-import { Manager } from "../../../..";
+import { Manager, cameraControl } from "../../../..";
 import { LevelPopup } from "../popups/LevelPopup";
 import { GameOverPopup } from "../popups/GameOverPopup";
 import { FadeColorTransition } from "../../../../engine/scenemanager/transitions/FadeColorTransition";
 import { Tween } from "tweedle.js";
 import type { PlatformNumber, IPlatformPosition } from "../game/IPlatform";
 import Random from "../../../../engine/random/Random";
+import { Container3D } from "pixi3d/pixi7";
 
 export class GameScene extends PixiScene {
 	private playerCat: Player;
 	private platforms: Platform[];
 	private spikes: Spikes[];
-	private world: Container;
+	private world: Container3D;
 	private bground: Sprite;
 	private floor: TilingSprite;
 	private middle: Sprite;
@@ -33,8 +35,8 @@ export class GameScene extends PixiScene {
 
 	constructor(level: number) {
 		super();
-		this.level = 3;
-		this.world = new Container();
+		this.level = level;
+		this.world = new Container3D();
 		this.bground = new Sprite(Texture.from("package-1/jumpingCatFlash/back.png"));
 		this.bground.width = ScaleHelper.IDEAL_WIDTH;
 		// this.bground.height = ScaleHelper.IDEAL_HEIGHT;
@@ -81,12 +83,17 @@ export class GameScene extends PixiScene {
 				break;
 		}
 		this.addChild(this.world);
+		cameraControl.allowControl = true;
+		cameraControl.distance = 1;
+		cameraControl.target.x = this.world.x;
+		cameraControl.target.y = this.world.y;
 	}
 	public override update(deltaMs: number): void {
 		this.playerCat.update(deltaMs); // update animation
 
 		if (Keyboard.shared.isDown(Key.RIGHT_ARROW) && this.playerCat.isMoving) {
 			this.playerCat.run();
+
 			this.playerCat.isMoving = false;
 			this.playerCat.speed.x = Player.MOVE_PLAYER;
 			this.playerCat.scale.x = 1;

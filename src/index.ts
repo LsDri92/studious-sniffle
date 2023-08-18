@@ -10,6 +10,7 @@ import { settings } from "pixi.js";
 import { DEFAULTS } from "tweedle.js";
 import { Box2DHelper } from "./engine/utils/Box2DHelper";
 import { MainMenuScene } from "./project/jumpingCatFlash/src/Scenes/MainMenuScene";
+import { CameraOrbitControl } from "pixi3d/pixi7";
 
 settings.RENDER_OPTIONS.hello = false;
 
@@ -36,6 +37,7 @@ forceFocus();
 
 // eslint-disable-next-line @typescript-eslint/naming-convention
 export const Manager = new SceneManager(new PixiRenderer(pixiSettings));
+export const cameraControl = new CameraOrbitControl(pixiSettings.view as HTMLElement);
 
 DataManager.initialize(new ForagePersistanceProvider(), SAVEDATA_VERSION);
 
