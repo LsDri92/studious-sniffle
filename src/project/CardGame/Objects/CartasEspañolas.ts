@@ -2,10 +2,10 @@ import { Cards } from "./Cards";
 import type { Spanish as Spanish, spanishCardType } from "./ICards";
 
 export class SpanishCards {
-	public basto: Array<Cards> = [null];
-	public espada: Array<Cards> = [null];
-	public copa: Array<Cards> = [null];
-	public oro: Array<Cards> = [null];
+	public basto: Array<Cards> = [];
+	public espada: Array<Cards> = [];
+	public copa: Array<Cards> = [];
+	public oro: Array<Cards> = [];
 	public cardNumber: number;
 	public deck: Array<Cards[]> = [];
 

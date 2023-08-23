@@ -17,13 +17,6 @@ export interface American {
 	americanCardValue: number;
 }
 
-export enum SpanishType {
-	BASTO = "BASTO",
-	ESPADA = "ESPADA",
-	COPA = "COPA",
-	ORO = "ORO",
-}
-
 // eslint-disable-next-line @typescript-eslint/naming-convention
 export type spanishCardType = "basto" | "espada" | "copa" | "oro";
 

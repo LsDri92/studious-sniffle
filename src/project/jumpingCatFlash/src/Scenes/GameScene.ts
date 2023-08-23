@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/naming-convention */
-import { Point, Sprite, Texture, TilingSprite } from "pixi.js";
+
+import { Container, Sprite, Texture, TilingSprite } from "pixi.js";
 import { checkColission } from "../utils/IHitbox";
 import { Platform } from "../game/Platforms";
 import { Player } from "../game/Player";
@@ -16,15 +17,12 @@ import { LevelPopup } from "../popups/LevelPopup";
 import { GameOverPopup } from "../popups/GameOverPopup";
 import { FadeColorTransition } from "../../../../engine/scenemanager/transitions/FadeColorTransition";
 import { Tween } from "tweedle.js";
-import type { PlatformNumber, IPlatformPosition } from "../game/IPlatform";
-import Random from "../../../../engine/random/Random";
-import { Container3D } from "pixi3d/pixi7";
 
 export class GameScene extends PixiScene {
 	private playerCat: Player;
 	private platforms: Platform[];
 	private spikes: Spikes[];
-	private world: Container3D;
+	private world: Container;
 	private bground: Sprite;
 	private floor: TilingSprite;
 	private middle: Sprite;
@@ -32,11 +30,13 @@ export class GameScene extends PixiScene {
 	public isAlive: boolean = true;
 	private tree: Sprite;
 	private level: number;
+	private platformGroup: 1 | 2 | 3 = 1;
 
 	constructor(level: number) {
 		super();
 		this.level = level;
-		this.world = new Container3D();
+		this.level = 3;
+		this.world = new Container();
 		this.bground = new Sprite(Texture.from("package-1/jumpingCatFlash/back.png"));
 		this.bground.width = ScaleHelper.IDEAL_WIDTH;
 		// this.bground.height = ScaleHelper.IDEAL_HEIGHT;
@@ -312,64 +312,100 @@ export class GameScene extends PixiScene {
 		this.world.addChild(this.floor, this.playerCat);
 	}
 
+	private platforms1: Array<any> = [];
+	private platforms2: Array<any> = [];
+	private platforms3: Array<any> = [];
 	private levelThree(): void {
 		// platform
 
 		Manager.openPopup(LevelPopup, [this.level]);
-		this.platforms = [];
 
-		const randomPosition: Record<PlatformNumber, IPlatformPosition> = {
-			1: { platPos: new Point(Random.shared.randomInt(500, 550), Random.shared.randomInt(500, 650)) },
-			2: { platPos: new Point(Random.shared.randomInt(550, 650), Random.shared.randomInt(500, 650)) },
-			3: { platPos: new Point(Random.shared.randomInt(500, 1000), Random.shared.randomInt(500, 650)) },
-			4: { platPos: new Point(Random.shared.randomInt(500, 1000), Random.shared.randomInt(500, 650)) },
-			5: { platPos: new Point(Random.shared.randomInt(500, 1000), Random.shared.randomInt(500, 650)) },
-			6: { platPos: new Point(Random.shared.randomInt(500, 1000), Random.shared.randomInt(500, 650)) },
-			7: { platPos: new Point(Random.shared.randomInt(500, 1000), Random.shared.randomInt(500, 650)) },
-			8: { platPos: new Point(Random.shared.randomInt(500, 1000), Random.shared.randomInt(500, 650)) },
-		};
-		const platPos: Array<Point> = [
-			randomPosition[1].platPos,
-			randomPosition[2].platPos,
-			randomPosition[3].platPos,
-			randomPosition[4].platPos,
-			randomPosition[5].platPos,
-			randomPosition[6].platPos,
-			randomPosition[7].platPos,
-			randomPosition[8].platPos,
-		];
-		for (let i = 1; i < platPos.length; i++) {
+		const platPosX1 = [300, 400, 500, 600, 350, 800, 1000, 1180, 1300];
+		const platPosY1 = [760, 670, 570, 520, 530, 580, 210, 350, 600];
+
+		const platPosX2 = [400, 550, 400, 450, 550, 650, 1200, 1100, 1250];
+		const platPosY2 = [660, 570, 470, 420, 330, 280, 310, 450, 600];
+
+		const platPosX3 = [500, 600, 300, 500, 750, 700, 1100, 1180, 1300];
+		const platPosY3 = [660, 570, 470, 420, 330, 280, 310, 450, 600];
+
+		for (let i = 0; i < platPosX1.length; i++) {
 			const platform = new Platform();
-			platform.position.set(platPos[i].x, platPos[i].y);
-			this.platforms.push(platform);
+			platform.position.set(platPosX1[i], platPosY1[i]);
+			this.platforms1.push(platform);
 			this.world.addChild(platform);
 		}
-		new Timer()
-			.duration(5000)
-			.start()
-			.onComplete(() => {
-				this.platforms.forEach((plat) => {
-					this.world.removeChild(plat);
-				});
-			});
 
-		// for (let i = 0; i < this.platforms.length; i += 2) {
-		// 	new Tween(this.platforms[i])
-		// 		.from({ alpha: 1 })
-		// 		.to({ alpha: 0 }, 4200)
-		// 		.yoyo(true)
-		// 		.repeat(Infinity)
-		// 		.start()
-		// 		.onRepeat(() => {
-		// 			if (this.platforms[i].alpha == 1) {
-		// 				this.platforms[i].visible = true;
-		// 				this.platforms[i].addChild(this.platforms[i].hitbox);
-		// 			} else if (this.platforms[i].alpha == 0) {
-		// 				this.platforms[i].visible = false;
-		// 				this.platforms[i].removeChild(this.platforms[i].hitbox);
-		// 			}
-		// 		});
-		// }
+		for (let i = 0; i < platPosX2.length; i++) {
+			const platform = new Platform();
+			platform.position.set(platPosX2[i], platPosY2[i]);
+			this.platforms2.push(platform);
+			this.world.addChild(platform);
+		}
+
+		for (let i = 0; i < platPosX3.length; i++) {
+			const platform = new Platform();
+			platform.position.set(platPosX3[i], platPosY3[i]);
+			this.platforms3.push(platform);
+			this.world.addChild(platform);
+		}
+		this.platforms = this.platforms1.concat(this.platforms2, this.platforms3);
+
+		const f: Function = (): void => {
+			switch (this.platformGroup) {
+				case 1:
+					this.platforms1.forEach((plat) => {
+						plat.visible = true;
+					});
+					this.platforms2.forEach((plat) => {
+						plat.visible = false;
+					});
+					this.platforms3.forEach((plat) => {
+						plat.visible = false;
+					});
+					break;
+				case 2:
+					this.platforms1.forEach((plat) => {
+						plat.visible = false;
+					});
+					this.platforms2.forEach((plat) => {
+						plat.visible = true;
+					});
+					this.platforms3.forEach((plat) => {
+						plat.visible = false;
+					});
+					break;
+				case 3:
+					this.platforms1.forEach((plat) => {
+						plat.visible = false;
+					});
+					this.platforms2.forEach((plat) => {
+						plat.visible = false;
+					});
+					this.platforms3.forEach((plat) => {
+						plat.visible = true;
+					});
+					break;
+
+				default:
+					break;
+			}
+		};
+
+		f();
+
+		new Timer()
+			.duration(2500)
+			.start()
+			.repeat(Infinity)
+			.onRepeat(() => {
+				f();
+				this.platformGroup += 1;
+				if (this.platformGroup > 3) {
+					this.platformGroup = 1;
+				}
+				console.log(this.platformGroup);
+			});
 
 		this.spikes = [];
 

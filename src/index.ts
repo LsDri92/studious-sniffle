@@ -10,7 +10,7 @@ import { settings } from "pixi.js";
 import { DEFAULTS } from "tweedle.js";
 import { Box2DHelper } from "./engine/utils/Box2DHelper";
 import { CameraOrbitControl } from "pixi3d/pixi7";
-import { CardTableScene } from "./project/CardGame/Scenes/CardTableScene";
+import { MainMenuScene } from "./project/jumpingCatFlash/src/Scenes/MainMenuScene";
 
 settings.RENDER_OPTIONS.hello = false;
 
@@ -61,7 +61,7 @@ window.dispatchEvent(new Event("resize"));
 
 const initializeCb = function (): void {
 	// Manager.changeScene(import(/* webpackPrefetch: true */ "./project/scenes/LoaderScene"));
-	Manager.changeScene(CardTableScene);
+	Manager.changeScene(MainMenuScene);
 };
 
 if (ALL_FLAGS.USE_BOX2D) {
