@@ -10,14 +10,15 @@ import { settings } from "pixi.js";
 import { DEFAULTS } from "tweedle.js";
 import { Box2DHelper } from "./engine/utils/Box2DHelper";
 import { CameraOrbitControl } from "pixi3d/pixi7";
-import { MainMenuScene } from "./project/jumpingCatFlash/src/Scenes/MainMenuScene";
+
+import { Scene3d } from "./project/3DGame/Scene/scene";
 
 settings.RENDER_OPTIONS.hello = false;
 
 DEFAULTS.safetyCheckFunction = (obj: any) => !obj?.destroyed;
 
 const pixiSettings = {
-	backgroundColor: 0x0,
+	backgroundColor: 0xffffff,
 	width: 1280,
 	resolution: window.devicePixelRatio || 1,
 	autoDensity: true,
@@ -27,7 +28,7 @@ const pixiSettings = {
 	interactionTestsAllScenes: true,
 };
 
-document.getElementById("pixi-content").style.background = "#" + "000000"; // app.renderer.backgroundColor.toString(16);
+document.getElementById("pixi-content").style.background = "#" + "ffffff"; // app.renderer.backgroundColor.toString(16);
 document.getElementById("pixi-content").appendChild(pixiSettings.view);
 
 preventDrag(); // prevents scrolling by dragging.
@@ -61,7 +62,7 @@ window.dispatchEvent(new Event("resize"));
 
 const initializeCb = function (): void {
 	// Manager.changeScene(import(/* webpackPrefetch: true */ "./project/scenes/LoaderScene"));
-	Manager.changeScene(MainMenuScene);
+	Manager.changeScene(Scene3d);
 };
 
 if (ALL_FLAGS.USE_BOX2D) {
