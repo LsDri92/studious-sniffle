@@ -83,9 +83,10 @@
 		{
 			"name": "3d",
 			"assets": {
-				"duckModel": "./models/duck/Duck.gltf",
-				"dancingStormtrooper": "./models/dancing-stormtrooper.glb",
-				"gridTexture": "./img/big_placeholder/bg_game.png"
+				// "duckModel": "./models/duck/Duck.gltf",
+				// "dancingStormtrooper": "./models/dancing-stormtrooper.glb",
+				// "gridTexture": "./img/big_placeholder/bg_game.png",
+				"lowPolyDragon": "/models/dragon/scene.gltf"
 			}
 		}
 	]
