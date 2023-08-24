@@ -1,5 +1,6 @@
 /* eslint-disable prettier/prettier */
 // import type { Sprite3D } from "pixi3d/pixi7";
+import type {  AABB} from "pixi3d/pixi7";
 import { Model } from "pixi3d/pixi7";
 import { Container3D, Mesh3D } from "pixi3d/pixi7";
 import { PixiScene } from "../../../engine/scenemanager/scenes/PixiScene";
@@ -22,46 +23,39 @@ export class Scene3d extends PixiScene {
 		this.addChild(this.world);
 		this.background = new Sprite(Texture.from("package-1/jumpingCatFlash/back.png"));
 		ScaleHelper.setScaleRelativeToScreen(this.background, ScaleHelper.IDEAL_WIDTH, ScaleHelper.IDEAL_HEIGHT, 1, 1, ScaleHelper.FILL);
-		this.world.addChild(this.background);
+		this.world.addChild(this.background);	
+
+		this.sphere0 = Mesh3D.createSphere();
+		this.sphere0.scale.set(2, 2, 1);
+		this.sphere0.position.set(0, 0, 0);
+		
+		const containerSphere = new Container3D()
+		
+		
+
+		const wall = Mesh3D.createCube()
+		wall.scale.set(150,150,0)
+		wall.position.set(150,150,0)
+
+		
+
+		const cube100 = Mesh3D.createCube();
+		cube100.scale.set(1, 1, 1);
+		// cube100.position.set(0, 0, -100);
+
+		const cube150 = Mesh3D.createCube();
+		cube150.scale.set(1, 1, 1);
+		// cube150.position.set(0, 0, -150);
+
 
 		const dragon = Assets.get("lowPolyDragon")
 		this.player =  Model.from(dragon)
 		this.player.position.set(50,50,50)
 		this.player.scale.set(100)
-		this.player.rotationQuaternion.setEulerAngles(90, 90, 0)
-
-
-		const dragonMesh = Mesh3D.createCube()
+		this.player.rotationQuaternion.setEulerAngles(0, 90, 0)
+		containerSphere.addChild(this.player)
+		// const dragonMesh = Mesh3D.createCube()
 		
-		
-		this.player.meshes = [dragonMesh]
-
-		console.log(this.player.meshes[0].width, this.player.height, this.player.hitArea)
-
-		this.sphere0 = Mesh3D.createSphere();
-		this.sphere0.scale.set(2, 2, 1);
-		this.sphere0.position.set(0, 0, 0);
-
-		const sphere50 = Mesh3D.createSphere();
-		sphere50.scale.set(1, 1, 1);
-		sphere50.position.set(0, 0, -50);
-
-		const sphere100 = Mesh3D.createSphere();
-		sphere100.scale.set(1, 1, 1);
-		sphere100.position.set(0, 0, -100);
-
-		const sphere150 = Mesh3D.createSphere();
-		sphere150.scale.set(1, 1, 1);
-		sphere150.position.set(0, 0, -150);
-
-		const wall = Mesh3D.createCube()
-		wall.scale.set(150,150,0)
-		wall.position.set(150,150,0)
-		
-		
-		
-
-
 		for(let i=0; i <150;i++){
 			const cube = Mesh3D.createCube();
 		cube.scale.set(0.1, 0.1, 0.1);
@@ -90,12 +84,26 @@ export class Scene3d extends PixiScene {
 	cameraControl.angles.set(35,200)
 
 
-		this.world.addChild(this.player,wall, this.sphere0, sphere50, sphere100, sphere150);
+		this.world.addChild(this.player, wall, this.sphere0, cube100, cube150);
+		
 	}
+	public intersect(a:AABB, b:AABB):boolean {
+		return (
+		  a.min.x <= b.max.x &&
+		  a.max.x >= b.min.x &&
+		  a.min.y <= b.max.y &&
+		  a.max.y >= b.min.y &&
+		  a.min.z <= b.max.z &&
+		  a.max.z >= b.min.z
+		);
+	  }
 
 	public override update(dt: number): void {
 		// console.log(cameraControl.angles)
 		dt;
+		const dragonbox = this.player.getBoundingBox()
+		
+		console.log(dragonbox.min, dragonbox.max)
 		if (Keyboard.shared.isDown(Key.RIGHT_ARROW)) {
 			cameraControl.target.z += 0.4;
 		}
