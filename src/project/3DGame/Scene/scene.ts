@@ -1,7 +1,7 @@
 /* eslint-disable prettier/prettier */
 // import type { Sprite3D } from "pixi3d/pixi7";
 import type {  AABB} from "pixi3d/pixi7";
-import { Model } from "pixi3d/pixi7";
+import { Material, Model } from "pixi3d/pixi7";
 import { Container3D, Mesh3D } from "pixi3d/pixi7";
 import { PixiScene } from "../../../engine/scenemanager/scenes/PixiScene";
 import { Keyboard } from "../../../engine/input/Keyboard";
@@ -25,7 +25,9 @@ export class Scene3d extends PixiScene {
 		ScaleHelper.setScaleRelativeToScreen(this.background, ScaleHelper.IDEAL_WIDTH, ScaleHelper.IDEAL_HEIGHT, 1, 1, ScaleHelper.FILL);
 		this.world.addChild(this.background);	
 
+
 		this.sphere0 = Mesh3D.createSphere();
+		Material
 		this.sphere0.scale.set(2, 2, 1);
 		this.sphere0.position.set(0, 0, 0);
 		

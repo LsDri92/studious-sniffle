@@ -10,8 +10,7 @@ import { settings } from "pixi.js";
 import { DEFAULTS } from "tweedle.js";
 import { Box2DHelper } from "./engine/utils/Box2DHelper";
 import { CameraOrbitControl } from "pixi3d/pixi7";
-
-import { Scene3d } from "./project/3DGame/Scene/scene";
+import { ParallaxScene } from "./project/jumpingCatFlash/src/Scenes/ParallaxScene";
 
 settings.RENDER_OPTIONS.hello = false;
 
@@ -62,7 +61,7 @@ window.dispatchEvent(new Event("resize"));
 
 const initializeCb = function (): void {
 	// Manager.changeScene(import(/* webpackPrefetch: true */ "./project/scenes/LoaderScene"));
-	Manager.changeScene(Scene3d);
+	Manager.changeScene(ParallaxScene);
 };
 
 if (ALL_FLAGS.USE_BOX2D) {

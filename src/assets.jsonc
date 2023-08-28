@@ -64,6 +64,16 @@
 			}
 		},
 		{
+			"name": "assetsParallax",
+			"assets": {
+				"layer0": "./img/ParallaxDemo/layer0.png",
+				"layer1": "./img/ParallaxDemo/layer1.png",
+				"layer2": "./img/ParallaxDemo/layer2.png",
+				"layer3": "./img/ParallaxDemo/layer3.png",
+				"layer4": "./img/ParallaxDemo/layer4.png"
+			}
+		},
+		{
 			"name": "music",
 			"assets": {
 				"jumpingCat":"./music/jumpingJackFlash.mp3"
